@@ -1,0 +1,7 @@
+# Local dev stack (reference). Production API is PHP on managed hosting.
+version: "3.9"
+services:
+  frontend:
+    build: ../arnold_portals
+    ports: ["4200:80"]
+  # backend runs as PHP-FPM behind the web server in production

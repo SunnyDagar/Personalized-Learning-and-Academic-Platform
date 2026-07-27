@@ -1,0 +1,9 @@
+{
+  "name": "arnold-portals",
+  "version": "0.1.0",
+  "description": "Student & Professor portal handlers (starter)",
+  "scripts": {
+    "build": "tsc || echo 'add tsconfig to build'"
+  },
+  "dependencies": {}
+}
