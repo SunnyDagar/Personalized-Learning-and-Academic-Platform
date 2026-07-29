@@ -56,3 +56,9 @@ to `main`. See `CONTRIBUTING.md` and `SETUP_FOR_TEAMMATES.md`.
 
 **Never commit secrets.** This repository is public. Tenant keys and API credentials belong in
 `server-edge/config.php`, which is git-ignored.
+
+## Licence
+
+Proprietary — evaluation and coursework use only. See `LICENSE` and `TERMS_OF_USE.md`.
+The server-side components are not included and not licensed. Access to the hosted service is
+per-tenant and revocable.

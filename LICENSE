@@ -1,0 +1,34 @@
+Copyright (c) 2026 Surender (Sunny) Dagar and the Group 1 capstone team.
+All rights reserved.
+
+PROPRIETARY — EVALUATION AND COURSEWORK USE ONLY
+
+This repository contains the client-side half of a Software-as-a-Service product
+("the Software"). The server-side components — the application programming interface,
+database, retrieval and generation engine, credentials, and tenant control plane — are
+not included and are not licensed hereunder.
+
+PERMITTED
+  1. Academic evaluation of this repository by Durham College faculty and assigned
+     evaluators, including execution against the provider's hosted service.
+  2. Use and modification by the named contributors for the purposes of the AIDI
+     Capstone II coursework.
+
+NOT PERMITTED without prior written permission of the copyright holder
+  1. Redistribution, publication, sublicensing, or sale of the Software or any
+     derivative of it.
+  2. Commercial use of any kind.
+  3. Reimplementation of the withheld server-side components, in whole or in part, for
+     the purpose of operating the Software independently of the provider's service.
+  4. Use of the provider's hosted service other than through a valid tenant licence,
+     or any attempt to obtain, forge, share, or extend a tenant licence.
+
+NO WARRANTY
+The Software is provided "as is", without warranty of any kind, express or implied.
+The copyright holder shall not be liable for any claim, damages, or other liability
+arising from the Software or its use.
+
+ACCESS MAY BE REVOKED
+Access to the hosted service is granted per tenant and may be suspended or terminated
+at any time. Termination renders this repository non-functional; that is by design and
+is not a defect.
