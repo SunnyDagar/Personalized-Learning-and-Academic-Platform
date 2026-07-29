@@ -36,7 +36,7 @@ their presentation section.
 | Sanchit Chhabra (`chhabra0521`) | `modules/sanchit_core_overview` | Slides 1–5 | App shell, routing, auth screens | API bootstrap, JWT verification, health |
 | Surender “Sunny” Dagar (`SunnyDagar`) | `modules/sunny_data_pipeline` | Slides 6–9 | Assistant chat surface, source display | Ingestion, embeddings, retrieval, grounding gate |
 | Arnold Babu (`ArnoldBabu`) | `modules/arnold_portals` | Slides 10–12 | Student & instructor portals, dashboards, flashcards | Portal endpoint contracts |
-| Félicité Gamgne Domgue | `modules/felicity_architecture` | Slides 13–16 | Analytics visualisations | Architecture, deployment, SLI/SLO monitoring |
+| Félicité Gamgne Domgue (`Felicite-gamgne`) | `modules/felicity_architecture` | Slides 13–16 | Analytics visualisations | Architecture, deployment, SLI/SLO monitoring |
 | Hafsa Shabbeer (`shabbeerhafsa`) | `modules/hafsa_business_engine` | Slides 17+ | Licensing / branding configuration surface | Business model, unit economics, risk & cost |
 
 ## Run it
