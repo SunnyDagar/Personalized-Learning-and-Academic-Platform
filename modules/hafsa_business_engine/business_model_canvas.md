@@ -47,5 +47,34 @@ didn't upload) + instructor analytics + institution-first delivery with per-tena
 | High data requirement | MVP retrieves over each course's own material — no large-scale student-data training needed. |
 | IP / copyright | Copyright-consent checkbox required before any upload. |
 
+## Three-year revenue projection (conservative case)
+
+Institutions are slow to buy but slow to churn, so the model assumes a long sales cycle and high retention.
+
+| Year | Institutions | Mix | Annual revenue | Notes |
+|---|---|---|---|---|
+| Year 1 | 3 | 2 Department + 1 Campus | ~$83,000 | Pilot-led; our own department first |
+| Year 2 | 8 | 5 Department + 3 Campus | ~$240,000 | Referrals from pilot outcomes; add-ons attach ~40% |
+| Year 3 | 18 | 10 Dept + 6 Campus + 2 Enterprise | ~$650,000 | LMS/LTI integration unlocks campus-wide deals |
+
+Assumptions: ~90% annual retention (institutional contracts renew on academic cycles), add-on attach rate
+rising from 30% → 45%, and operating cost holding near $250/tenant/month. Reproduce the year-1 figure with
+`python pricing_tiers.py`.
+
+## Go-to-market sequence
+1. **Departmental pilot** — run in our own programme, collect outcome data (engagement, at-risk detection accuracy).
+2. **Evidence pack** — turn pilot results into the reference case; this is what a procurement committee asks for.
+3. **Partner institutions** — expand to neighbouring colleges through faculty referral.
+4. **Campus-wide** — once LMS/LTI integration and the SOC 2 path are complete, sell above the department level.
+
+## Key metrics to track
+| Metric | Why it matters | Target |
+|---|---|---|
+| Seats activated / seats licensed | Real usage vs. shelfware — the renewal predictor | > 60% |
+| Questions per active student / week | Depth of engagement with the assistant | > 5 |
+| At-risk flags acted on by instructors | Proves the analytics change behaviour | > 50% |
+| Gross margin per tenant | Unit economics holding as we scale | ≥ 75% |
+| Net revenue retention | Expansion (add-ons, more seats) vs. churn | > 100% |
+
 > If any assumption here changes, update Section 1.4/1.8 of
 > `capstone_project/Final Report AIDI CAPSTONE II Summer 2026.html` so the report and code agree.
