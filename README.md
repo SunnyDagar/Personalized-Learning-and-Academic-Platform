@@ -62,3 +62,5 @@ to `main`. See `CONTRIBUTING.md` and `SETUP_FOR_TEAMMATES.md`.
 Proprietary — evaluation and coursework use only. See `LICENSE` and `TERMS_OF_USE.md`.
 The server-side components are not included and not licensed. Access to the hosted service is
 per-tenant and revocable.
+
+<!-- maintained by the Group 1 team -->
