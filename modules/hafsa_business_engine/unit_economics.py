@@ -23,6 +23,27 @@ def forecast_12mo(start_institutions: int, monthly_growth: float,
     return rows
 
 
+def customer_lifetime_value(annual_revenue_per_inst: float, gross_margin_pct: float,
+                            annual_churn_pct: float):
+    """LTV = (annual revenue x gross margin) / annual churn rate.
+
+    Ties the canvas's 'Net revenue retention' target to a single per-institution number.
+    Returns None when churn is 0 (undefined — an institution that never churns has infinite LTV).
+    """
+    if annual_churn_pct <= 0:
+        return None
+    return round(annual_revenue_per_inst * (gross_margin_pct / 100) / (annual_churn_pct / 100), 2)
+
+
+def net_revenue_retention(start_of_year_revenue: float, expansion_revenue: float,
+                          churned_revenue: float):
+    """NRR% = (start + expansion - churn) / start. >100% means expansion outpaces churn."""
+    if start_of_year_revenue <= 0:
+        return None
+    nrr = (start_of_year_revenue + expansion_revenue - churned_revenue) / start_of_year_revenue
+    return round(nrr * 100, 1)
+
+
 if __name__ == "__main__":
     ue = unit_economics(price_per_institution_year=12000, ai_cost_month=120,
                         infra_cost_month=80, institutions=5)
@@ -31,3 +52,13 @@ if __name__ == "__main__":
     print(" month | institutions | MRR($)")
     for m, inst, mrr in forecast_12mo(2, 0.15, 12000):
         print(f"   {m:>2}   |    {inst:>6}    | {mrr:>9}")
+
+    # canvas assumption: ~90% annual retention -> 10% churn; Department tier, 80% margin
+    ltv = customer_lifetime_value(annual_revenue_per_inst=12000, gross_margin_pct=80,
+                                  annual_churn_pct=10)
+    print(f"\nCustomer LTV (Department tier, 80% margin, 10% annual churn): ${ltv:,}")
+
+    # Year-2 book ($240k) with ~40% add-on attach expanding existing accounts, 10% churned
+    nrr = net_revenue_retention(start_of_year_revenue=83000, expansion_revenue=25000,
+                                churned_revenue=8300)
+    print(f"Net revenue retention (Year 1 -> Year 2 base): {nrr}%")
