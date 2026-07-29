@@ -5,7 +5,7 @@ Complements unit_economics.py (margin/break-even) and risk_cost.py (cost & risk)
 *price side*: what an institution pays, how tiers stack, and what a mixed customer base yields.
 
 Assumptions match Section 1.8 of the final report — if you change them here, update the report too.
-Standard library only.
+Standard library only
 
     python pricing_tiers.py
 """
