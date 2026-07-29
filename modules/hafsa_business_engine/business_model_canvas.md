@@ -67,7 +67,7 @@ rising from 30% → 45%, and operating cost holding near $250/tenant/month. Repr
 3. **Partner institutions** — expand to neighbouring colleges through faculty referral.
 4. **Campus-wide** — once LMS/LTI integration and the SOC 2 path are complete, sell above the department level.
 
-## Key metrics to track 
+## Key metrics to track
 | Metric | Why it matters | Target |
 |---|---|---|
 | Seats activated / seats licensed | Real usage vs. shelfware — the renewal predictor | > 60% |
