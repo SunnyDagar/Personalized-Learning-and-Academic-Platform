@@ -31,15 +31,10 @@ python risk_cost.py          # cost model, break-even, risk-weighted value
 ```
 
 ## Business assumptions these scripts encode
-- **Client = institutions** (per-tenant annual licence), not student freemium — the decision made in
-  response to Prof. Gaertner's feedback.
-- Indicative licence **CAD $12,000 / institution / year**; operating cost ≈ **$250 / tenant / month**
-  (AI inference + infrastructure + support) → gross margin ≈ **80%**.
-- **Break-even ≈ 7 institutions** against a modest fixed-cost base.
-- Forecast starts at 2 pilot institutions with 15% month-over-month tenant growth.
+The calculators are parameterised — pricing, cost, growth and risk inputs are passed in, not
+hard-coded as commitments. Illustrative defaults are used in each script's `__main__` block so the
+output is reproducible. Actual commercial figures live in the final report, not in this repository.
 
-If you change a pricing or cost assumption here, also update **Section 1.8** of
-`capstone_project/Final Report AIDI CAPSTONE II Summer 2026.html` so the report and the code agree.
 
 ## How to contribute
 Work only inside this folder, commit under your own name and real dates, and open a pull request to `main`.

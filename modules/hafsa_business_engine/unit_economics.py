@@ -23,6 +23,19 @@ def forecast_12mo(start_institutions: int, monthly_growth: float,
     return rows
 
 
+def customer_lifetime_value(annual_price: float, gross_margin_pct: float, avg_years: float):
+    """LTV = annual price x gross margin x expected contract length (years)."""
+    return round(annual_price * (gross_margin_pct / 100) * avg_years, 2)
+
+
+def net_revenue_retention(starting_arr: float, expansion: float, churned: float):
+    """NRR = (starting + expansion - churn) / starting, as a percentage. >100% means growth
+    from the existing base alone."""
+    if starting_arr <= 0:
+        return 0.0
+    return round((starting_arr + expansion - churned) / starting_arr * 100, 1)
+
+
 if __name__ == "__main__":
     ue = unit_economics(price_per_institution_year=12000, ai_cost_month=120,
                         infra_cost_month=80, institutions=5)

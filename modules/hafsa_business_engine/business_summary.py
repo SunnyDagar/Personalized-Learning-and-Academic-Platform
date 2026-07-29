@@ -3,7 +3,7 @@ Business engine — one-shot summary report (Hafsa Shabbeer, slides 17+).
 
 Ties pricing_tiers.py (price side), risk_cost.py (cost/risk side), and unit_economics.py
 (margin/LTV side) into the single "Numbers at a glance" report used for the demo and to
-sanity-check business_model_canvas.md against the live code. Standard library only.
+sanity-check the business model in the final report against the live code. Standard library only.
 
     python3 business_summary.py
 """
