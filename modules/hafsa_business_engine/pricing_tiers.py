@@ -29,6 +29,9 @@ def tier_price(tier, addons=()):
     """Annual price for a tier plus any add-ons."""
     if tier not in TIERS:
         raise ValueError(f"unknown tier {tier!r}; choose from {list(TIERS)}")
+    unknown = [a for a in addons if a not in ADDONS]
+    if unknown:
+        raise ValueError(f"unknown add-on(s) {unknown}; choose from {list(ADDONS)}")
     base = TIERS[tier][0]
     return base + sum(ADDONS[a] for a in addons)
 
