@@ -7,7 +7,8 @@ Vision, problem statement, and the foundational API bootstrap.
 - **Vision:** one institutional platform — grounded AI tutoring for students + real analytics for staff.
 - **Core foundation:** a PHP REST API front controller with a licence/activation gate (SaaS kill-switch).
 
-`config.example.php` is a safe template — real secrets live in `.env` on the server (git-ignored).
+Configuration for the shipped half lives in `../../server-edge/config.example.php`. Server-side
+configuration (database, AI credentials, activation) is not part of this repository.
 
 ### Front-end
 | File | What it does |
