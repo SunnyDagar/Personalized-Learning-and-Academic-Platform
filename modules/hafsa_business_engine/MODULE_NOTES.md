@@ -8,7 +8,7 @@ Working notes for this module. Read before changing anything in `modules/hafsa_b
 | Name | Hafsa Shabbeer |
 | Role | Backend Lead / Business — DB architecture, deployment, business model &amp; unit economics |
 | Presentation | **Slides 17 → end** (Business Model, Financial Forecast, Risk &amp; Cost Analytics) |
-| GitHub | `hafsashabbeer` |
+| GitHub | `shabbeerhafsa` |
 | Jira | project **KAN** (accountId in `learning/JIRA_RUNBOOK.md`) |
 
 > ⚠️ **No credentials in this repo.** Contact details and passwords are deliberately not stored here — this

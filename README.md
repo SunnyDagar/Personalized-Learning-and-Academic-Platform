@@ -33,11 +33,11 @@ their presentation section.
 
 | Member | Module | Presentation | Client-side focus | Server-facing focus |
 |---|---|---|---|---|
-| Sanchit Chhabra | `modules/sanchit_core_overview` | Slides 1–5 | App shell, routing, auth screens | API bootstrap, JWT verification, health |
-| Surender “Sunny” Dagar | `modules/sunny_data_pipeline` | Slides 6–9 | Assistant chat surface, source display | Ingestion, embeddings, retrieval, grounding gate |
-| Arnold Babu | `modules/arnold_portals` | Slides 10–12 | Student & instructor portals, dashboards, flashcards | Portal endpoint contracts |
+| Sanchit Chhabra (`chhabra0521`) | `modules/sanchit_core_overview` | Slides 1–5 | App shell, routing, auth screens | API bootstrap, JWT verification, health |
+| Surender “Sunny” Dagar (`SunnyDagar`) | `modules/sunny_data_pipeline` | Slides 6–9 | Assistant chat surface, source display | Ingestion, embeddings, retrieval, grounding gate |
+| Arnold Babu (`ArnoldBabu`) | `modules/arnold_portals` | Slides 10–12 | Student & instructor portals, dashboards, flashcards | Portal endpoint contracts |
 | Félicité Gamgne Domgue | `modules/felicity_architecture` | Slides 13–16 | Analytics visualisations | Architecture, deployment, SLI/SLO monitoring |
-| Hafsa Shabbeer | `modules/hafsa_business_engine` | Slides 17+ | Licensing / branding configuration surface | Business model, unit economics, risk & cost |
+| Hafsa Shabbeer (`shabbeerhafsa`) | `modules/hafsa_business_engine` | Slides 17+ | Licensing / branding configuration surface | Business model, unit economics, risk & cost |
 
 ## Run it
 
@@ -48,6 +48,10 @@ php -S 127.0.0.1:8080 -t .
 Open <http://127.0.0.1:8080>. `/api/...` calls are forwarded upstream by the edge.
 
 Each module is also independently runnable — see its own `README.md`.
+
+## Team
+
+The five official contributors are listed in `CONTRIBUTORS.md`.
 
 ## Contributing
 
