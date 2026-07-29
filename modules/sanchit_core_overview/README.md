@@ -8,3 +8,10 @@ Vision, problem statement, and the foundational API bootstrap.
 - **Core foundation:** a PHP REST API front controller with a licence/activation gate (SaaS kill-switch).
 
 `config.example.php` is a safe template — real secrets live in `.env` on the server (git-ignored).
+
+### Front-end
+| File | What it does |
+|---|---|
+| `ui/auth.guard.ts` | Route guard for the student/professor portals — checks session token and role before entry |
+
+Angular 17 standalone component — drop into the client app under `client/src/app/`.

@@ -33,3 +33,10 @@ professor uploaded, and it refuses everything else in code rather than guessing.
 https://dagarretail.com (log in as a student and ask an off-topic question — it refuses).
 
 > Secrets (`.env`, API keys, the SaaS gateway blob) live only on the server, never in this repo.
+
+### Front-end
+| File | What it does |
+|---|---|
+| `ui/chat-sources.component.ts` | Source citation strip — shows which course chunks grounded an answer (empty when the scope gate refuses) |
+
+Angular 17 standalone component — drop into the client app under `client/src/app/`.
