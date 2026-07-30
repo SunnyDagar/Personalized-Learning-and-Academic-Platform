@@ -21,3 +21,6 @@ venv/
 
 # edge tenant config — never commit
 server-edge/config.php
+
+# local comparison snapshot — never publish (duplicate of the live module)
+modules/sunny_data_pipeline_copy/
