@@ -40,3 +40,4 @@ https://dagarretail.com (log in as a student and ask an off-topic question — i
 | `ui/chat-sources.component.ts` | Source citation strip — shows which course chunks grounded an answer (empty when the scope gate refuses) |
 
 Angular 17 standalone component — drop into the client app under `client/src/app/`.
+
