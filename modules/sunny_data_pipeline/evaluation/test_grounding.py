@@ -7,11 +7,16 @@ deterministically.
 
     python3 -m unittest test_grounding -v
 """
-import math
+import sys
 import unittest
+from pathlib import Path
 
-from ingest_embed import cosine, clean_text, chunk_text
-from grounding import MIN_SIM
+ROOT = Path(__file__).resolve().parent.parent
+sys.path[:0] = [str(ROOT / p) for p in ("extraction", "chunking", "retrieval")]
+
+from extract import normalise as clean_text   # noqa: E402
+from chunk import chunk_words as chunk_text   # noqa: E402
+from search import cosine, MIN_SIM            # noqa: E402
 
 
 class TestCosineSimilarity(unittest.TestCase):
