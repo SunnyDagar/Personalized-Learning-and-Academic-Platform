@@ -51,6 +51,8 @@ the **grounding gate** that keeps the assistant on the professor's material.
 | `evaluation/` | `evaluate_retrieval.py` | Precision/recall sweep that justifies the threshold |
 | | `test_grounding.py` | Unit tests for the similarity maths and chunking |
 | | `test_extract.py` | Extractor tests — builds real PDF and DOCX files on the fly |
+| | `test_ingest.py` | Chunking tests — sentences stay intact, no words lost |
+| | `test_embedding_cache.py` | Cache tests — a hit must never reach the API |
 | `cli/` | `ingest_cli.py` | The whole pipeline in one command |
 | `ui/` | `chat-sources.component.ts` | Shows which chunks grounded an answer |
 | `backend/` | `edge_cache.php` | Per-user response cache at the edge *(wired into the live app)* |
@@ -71,8 +73,8 @@ python3 evaluation/evaluate_retrieval.py
 # text out of any supported file
 python3 extraction/extract.py "Final Report.pdf"
 
-# tests — 55, no network, no API key, no third-party libraries
-cd evaluation && python3 -m unittest test_extract test_grounding -v
+# tests — 96, no network, no API key, no third-party libraries
+cd evaluation && python3 -m unittest discover -p 'test_*.py'
 ```
 
 ## Why the gate matters
