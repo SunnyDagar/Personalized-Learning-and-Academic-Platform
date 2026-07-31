@@ -50,6 +50,7 @@ the **grounding gate** that keeps the assistant on the professor's material.
 | `retrieval/` | `search.py` | Cosine similarity, ranking, and the `MIN_SIM = 0.62` gate |
 | `evaluation/` | `evaluate_retrieval.py` | Precision/recall sweep that justifies the threshold |
 | | `test_grounding.py` | Unit tests for the similarity maths and chunking |
+| | `test_extract.py` | Extractor tests — builds real PDF and DOCX files on the fly |
 | `cli/` | `ingest_cli.py` | The whole pipeline in one command |
 | `ui/` | `chat-sources.component.ts` | Shows which chunks grounded an answer |
 | `backend/` | `edge_cache.php` | Per-user response cache at the edge *(wired into the live app)* |
@@ -67,8 +68,11 @@ python3 cli/ingest_cli.py notes.md --query "what stops a recursion?"
 # the evidence behind the threshold
 python3 evaluation/evaluate_retrieval.py
 
-# tests
-cd evaluation && python3 -m unittest test_grounding -v
+# text out of any supported file
+python3 extraction/extract.py "Final Report.pdf"
+
+# tests — 55, no network, no API key, no third-party libraries
+cd evaluation && python3 -m unittest test_extract test_grounding -v
 ```
 
 ## Why the gate matters
@@ -85,6 +89,26 @@ ordinary drift does not start admitting off-topic material.
 The trade-off is deliberately asymmetric. A false positive means answering from material that does
 not cover the question — the failure this whole design exists to prevent. A false negative just
 means the student rephrases.
+
+## Extraction, and why it is harder than it looks
+
+Extraction is where damage happens silently — nothing raises, the text is simply worse, and
+retrieval quality drops for reasons no error message explains. Three real cases this handles:
+
+- **A word split across a line break.** `recur-\nsion` never matches a query for *recursion*, so
+  the hyphenation is repaired before anything else runs.
+- **Glyph codes are not characters.** A PDF exported from a browser or Word embeds a *subset* font
+  whose codes are arbitrary; reading them as text yields `% q % V V q`. The font's `/ToUnicode`
+  CMap is the translation table, so it is parsed and applied per font.
+- **Not every position change is a line break.** Those exporters place almost every glyph with its
+  own `Td`/`Tm`. Treating each as a newline turns `PROJECTS` into eight one-letter "words" and
+  wrecks the chunking downstream — so a break is emitted only when the *y* coordinate moves.
+
+Both formats are read with the standard library only: a DOCX is a ZIP of XML, and PDF text lives
+in Flate-compressed content streams. No third-party dependency, nothing to install.
+
+**Known limit:** a scanned PDF holds images, not text operators. That is detected and reported as
+needing OCR rather than silently returning an empty document.
 
 ## Design decisions worth defending
 
