@@ -144,6 +144,44 @@ class TestDescribe(unittest.TestCase):
         self.assertLessEqual(stats["max_words"], 15)
 
 
+class TestBoundarySurvival(unittest.TestCase):
+    """The metric behind the 400/50 choice — it has to be trustworthy to be quoted."""
+
+    def setUp(self):
+        sys.path[:0] = [str(ROOT / "chunking")]
+        from chunk_tuning import boundary_survival, redundancy
+        self.survival, self.redundancy = boundary_survival, redundancy
+
+    def test_overlap_never_loses_sentences_that_no_overlap_loses(self):
+        """The whole justification: more overlap must not retrieve *fewer* whole sentences."""
+        none = self.survival(PROSE, size=20, overlap=0)
+        some = self.survival(PROSE, size=20, overlap=8)
+        self.assertGreaterEqual(some, none)
+
+    def test_a_single_chunk_keeps_every_sentence(self):
+        self.assertEqual(self.survival(PROSE, size=10_000, overlap=0), 1.0)
+
+    def test_the_result_is_a_fraction(self):
+        self.assertGreaterEqual(self.survival(PROSE, size=20, overlap=5), 0.0)
+        self.assertLessEqual(self.survival(PROSE, size=20, overlap=5), 1.0)
+
+    def test_empty_text_scores_zero_rather_than_dividing_by_zero(self):
+        self.assertEqual(self.survival("", size=100, overlap=10), 0.0)
+
+    def test_redundancy_is_one_when_there_is_no_overlap(self):
+        words = " ".join(str(i) for i in range(300))
+        self.assertEqual(self.redundancy(chunk_words(words, 50, 0), 300), 1.0)
+
+    def test_redundancy_rises_with_overlap(self):
+        words = " ".join(str(i) for i in range(300))
+        plain = self.redundancy(chunk_words(words, 50, 0), 300)
+        lapped = self.redundancy(chunk_words(words, 50, 20), 300)
+        self.assertGreater(lapped, plain)
+
+    def test_redundancy_of_nothing_is_zero(self):
+        self.assertEqual(self.redundancy([], 0), 0.0)
+
+
 class TestDefaults(unittest.TestCase):
     def test_the_documented_defaults_are_what_the_code_uses(self):
         """400/50 is the figure defended in the README and the report."""
