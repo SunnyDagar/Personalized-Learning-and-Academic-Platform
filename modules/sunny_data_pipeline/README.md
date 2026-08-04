@@ -73,7 +73,7 @@ python3 evaluation/evaluate_retrieval.py
 # text out of any supported file
 python3 extraction/extract.py "Final Report.pdf"
 
-# tests — 96, no network, no API key, no third-party libraries
+# tests — 103, no network, no API key, no third-party libraries
 cd evaluation && python3 -m unittest discover -p 'test_*.py'
 ```
 
@@ -111,6 +111,36 @@ in Flate-compressed content streams. No third-party dependency, nothing to insta
 
 **Known limit:** a scanned PDF holds images, not text operators. That is detected and reported as
 needing OCR rather than silently returning an empty document.
+
+## Why 400 words with 50 of overlap — measured, not assumed
+
+`chunking/chunk_tuning.py` sweeps sizes and overlaps over a real 6,588-word corpus (this project's
+own final report, extracted with `extraction/extract.py`). Two numbers matter, and they pull in
+opposite directions:
+
+- **redundancy** — total chunk words ÷ corpus words. What overlap *costs*: every chunk is a
+  separate embedding call, so 1.14 means paying for 14% more embeddings.
+- **sentences intact** — the share of sentences that survive whole inside at least one chunk. What
+  overlap *buys*. A sentence split across a boundary is in neither chunk complete, so no embedding
+  represents it, and that definition cannot be retrieved however good the model is.
+
+| size / overlap | chunks | redundancy | sentences intact |
+|---|---|---|---|
+| 400 / 0 | 17 | 1.00 | 93.4% |
+| 400 / 25 | 18 | 1.07 | 97.9% |
+| **400 / 50** | **19** | **1.14** | **99.6%** |
+| 400 / 100 | 22 | 1.32 | 100.0% |
+
+**Overlap 0 loses 6.6% of sentences outright** — roughly one in fifteen definitions unretrievable,
+for no error and no warning. 50 words recovers almost all of it for two extra chunks. Going to 100
+nearly doubles the redundancy cost to recover the last 0.4%, which is not worth paying on every
+document forever.
+
+On **size**, the sweep shows 200 words needs 44 chunks where 400 needs 19 — more than double the
+embedding cost — while 800 gives only 9 chunks, each averaging several topics, which is the failure
+mode the gate cannot detect: an averaged embedding matches everything weakly and nothing strongly.
+
+Reproduce with `python3 chunking/chunk_tuning.py <textfile>`.
 
 ## Design decisions worth defending
 

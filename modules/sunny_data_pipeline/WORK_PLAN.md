@@ -50,12 +50,28 @@ garbage from a real PDF. Two bugs only real files exposed — embedded subset fo
 `/ToUnicode` map, and a browser positions every glyph individually, so a line break is a *vertical*
 move, not any move. `Jira.pdf` went from 6 to 711 words; the final report from 1,389 to 6,588.
 
-## Day 4 — Fri 1 Aug · Chunking strategy, with evidence
-| # | Add | Where |
-|---|---|---|
-| 1 | Compare 200 / 400 / 600-word chunks | `chunking/chunk_tuning.py` |
-| 2 | Measure the effect of overlap on redundancy | `chunking/chunk_tuning.py` |
-| 3 | Write up why 400/50 was chosen | `README.md` |
+## Day 4 — Fri 1 Aug · Chunking strategy, with evidence ✅ *(completed Mon 4 Aug)*
+| # | Add | Where | Status |
+|---|---|---|---|
+| 1 | Compare 200 / 400 / 600-word chunks | `chunking/chunk_tuning.py` | ✅ |
+| 2 | Measure the effect of overlap | `chunking/chunk_tuning.py` | ✅ |
+| 3 | Write up why 400/50 was chosen | `README.md` | ✅ |
+
+**Measured** over a real 6,588-word corpus (this project's final report, extracted with our own
+`extract.py`). The sweep originally reported only redundancy — what overlap *costs*. Added
+`boundary_survival()` to measure what it *buys*: the share of sentences surviving whole inside some
+chunk, since a sentence split across a boundary is in neither chunk complete and no embedding
+represents it.
+
+| 400 / overlap | chunks | redundancy | sentences intact |
+|---|---|---|---|
+| 0 | 17 | 1.00 | 93.4% |
+| 25 | 18 | 1.07 | 97.9% |
+| **50** | **19** | **1.14** | **99.6%** |
+| 100 | 22 | 1.32 | 100.0% |
+
+Zero overlap silently loses 6.6% of sentences. 50 words recovers nearly all of it for two extra
+chunks; 100 nearly doubles the cost to recover the last 0.4%.
 
 ## Day 5 — Sat 2 Aug · Embedding cache ✅ (tests landed early, 31 Jul)
 | # | Add | Where | Status |
@@ -71,12 +87,15 @@ move, not any move. `Jira.pdf` went from 6 to 711 words; the final report from 1
 | 2 | `--query` mode demonstrating retrieval *and* the refusal | `cli/ingest_cli.py` | ✅ |
 | 3 | Usage documentation | `README.md` | ✅ |
 
-## Day 7 — Mon 4 Aug · Final polish and FINAL PUSH
-| # | Add |
-|---|---|
-| 1 | Docstrings and type hints across the module |
-| 2 | Run the whole suite, confirm green, record the count |
-| 3 | Final commit — module complete |
+## Day 7 — Mon 4 Aug · Final polish and FINAL PUSH ✅
+| # | Add | Status |
+|---|---|---|
+| 1 | Docstrings and type hints across the module | ✅ |
+| 2 | Run the whole suite, confirm green, record the count | ✅ **103 tests, all passing** |
+| 3 | Final commit — module complete | ✅ |
+
+**Module complete.** 103 tests, no network, no API key, no third-party libraries — the whole suite
+runs on a clean machine with `python3 -m unittest discover -p 'test_*.py'` from `evaluation/`.
 
 ---
 
