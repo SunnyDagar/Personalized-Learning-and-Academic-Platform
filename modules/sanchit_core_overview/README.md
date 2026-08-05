@@ -1,18 +1,14 @@
-# Core Overview & API Bootstrap — Sanchit Chhabra (Slides 1–5)
+# Sanchit Core Overview Module
 
-Vision, problem statement, and the foundational API bootstrap.
+## Project Vision & Problem Statement
+- **Problem Statement:** Traditional learning platforms lack real-time adaptability, forcing a one-size-fits-all approach that fails to target individual student knowledge gaps or provide secure role-based isolation at scale.
+- **Vision:** To build an adaptive, secure, AI-driven academic platform utilizing Retrieval-Augmented Generation (RAG) and Deep Knowledge Tracing (DKT) to dynamically tailor educational pathways.
+- **Core Foundations:** The infrastructure relies on robust JWT authentication protocols, edge-level session rate-limiting, and strict client-backend role segregation to ensure secure, scalable telemetry and interaction processing.
 
-- **Problem:** generic study resources, no visibility into weak topics, slow feedback, limited
-  instructor communication.
-- **Vision:** one institutional platform — grounded AI tutoring for students + real analytics for staff.
-- **Core foundation:** a PHP REST API front controller with a licence/activation gate (SaaS kill-switch).
+## Rate Limiter Configuration
+- **Window Size:** 60 seconds rolling window.
+- **Threshold:** Max 60 requests per IP/token combination.
+- **Response:** Exceeding the limit returns an HTTP `429 Too Many Requests` header and payload. Setting the limit parameter to `0` completely disables throttling for administrative testing.
 
-Configuration for the shipped half lives in `../../server-edge/config.example.php`. Server-side
-configuration (database, AI credentials, activation) is not part of this repository.
-
-### Front-end
-| File | What it does |
-|---|---|
-| `ui/auth.guard.ts` | Route guard for the student/professor portals — checks session token and role before entry |
-
-Angular 17 standalone component — drop into the client app under `client/src/app/`.
+## Test Results
+eof
