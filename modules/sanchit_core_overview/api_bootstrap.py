@@ -38,6 +38,21 @@ def jwt_decode(token, secret=SECRET):
         return None
 
 
+def generate_token(sub, role, expiration_seconds=3600, secret=SECRET):
+    """Issue a signed session token for a user. Thin wrapper over jwt_encode()."""
+    now = int(time.time())
+    return jwt_encode(
+        {"sub": sub, "role": role, "iat": now, "exp": now + expiration_seconds}, secret
+    )
+
+
+def verify_token(token, secret=SECRET):
+    """Return the token's payload, or None if it is absent, expired or tampered with."""
+    if not token:
+        return None
+    return jwt_decode(token, secret)
+
+
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/health":
