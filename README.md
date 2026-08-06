@@ -42,10 +42,20 @@ their presentation section.
 ## Run it
 
 ```bash
-cp server-edge/config.example.php server-edge/config.php   # set API_BASE and TENANT_KEY
 php -S 127.0.0.1:8080 -t .
 ```
-Open <http://127.0.0.1:8080>. `/api/...` calls are forwarded upstream by the edge.
+Open <http://127.0.0.1:8080>. No configuration needed — a time-limited evaluation licence is
+included in `server-edge/config.example.php`. `/api/...` calls are forwarded upstream by the edge
+to the hosted service, which holds the data, the AI and the keys.
+
+**The licence expires on 30 September 2026**, and is revocable before then. After that this
+software no longer functions: the server declines every request, and nothing in this repository
+can replace the half that is missing. That is the product model, not a limitation of the demo.
+
+Run the tests (no licence, no network, no dependencies):
+```bash
+cd modules/sunny_data_pipeline/evaluation && python3 -m unittest discover -p 'test_*.py'
+```
 
 Each module is also independently runnable — see its own `README.md`.
 
