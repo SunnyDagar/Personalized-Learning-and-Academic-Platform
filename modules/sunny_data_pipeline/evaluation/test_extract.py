@@ -105,6 +105,25 @@ class TestDropRepeatedLines(unittest.TestCase):
         text = "\n".join([long_line] * 5)
         self.assertIn(long_line, drop_repeated_lines(text))
 
+    def test_a_repeated_short_word_is_never_treated_as_boilerplate(self):
+        """Regression: a PDF emits each bold run on its own line, so 'not' arrived as a line.
+
+        With no lower length bound it was deleted as a running header, turning
+        'we are not certified' into 'we are certified' — a fluent sentence asserting the opposite.
+        """
+        text = "we are\nnot\ncertified\nsomething else\nnot\nmore text\nnot\nend"
+        self.assertIn("not", drop_repeated_lines(text).split("\n"))
+
+    def test_short_words_survive_even_when_very_frequent(self):
+        text = "\n".join(["and"] * 20 + ["real content here"])
+        self.assertIn("and", drop_repeated_lines(text))
+
+    def test_genuine_page_furniture_is_still_removed(self):
+        header = "AIDI 2005 — Week 3 Lecture Notes"
+        text = "\n".join([header] * 4 + ["actual course content"])
+        self.assertNotIn(header, drop_repeated_lines(text))
+        self.assertIn("actual course content", drop_repeated_lines(text))
+
 
 class TestMarkdown(Fixtures):
     def test_strips_headings_and_emphasis(self):

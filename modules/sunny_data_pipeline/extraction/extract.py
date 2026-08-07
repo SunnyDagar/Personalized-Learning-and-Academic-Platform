@@ -33,12 +33,20 @@ def normalise(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def drop_repeated_lines(text: str, min_repeats: int = 3) -> str:
-    """Remove page headers/footers — short lines that recur on most pages of a document."""
+def drop_repeated_lines(text: str, min_repeats: int = 3, min_chars: int = 12) -> str:
+    """Remove page headers/footers — short lines that recur on most pages of a document.
+
+    `min_chars` is the guard that makes this safe. A PDF positions each emphasised run separately,
+    so an inline bold word arrives as a line of its own; without a lower bound, any short word
+    appearing three times — "not", "and", a surname — is indistinguishable from a running header and
+    gets deleted. Removing a "not" leaves a fluent sentence asserting the opposite of the document,
+    which is the worst possible failure for a tool feeding a retrieval index. Real page furniture
+    ("AIDI 2005 — Week 3", "Confidential — do not distribute") comfortably clears twelve characters.
+    """
     lines = [l.strip() for l in text.split("\n")]
     counts: dict[str, int] = {}
     for l in lines:
-        if 0 < len(l) < 80:
+        if min_chars <= len(l) < 80:
             counts[l] = counts.get(l, 0) + 1
     boilerplate = {l for l, n in counts.items() if n >= min_repeats}
     return "\n".join(l for l in lines if l not in boilerplate)
@@ -164,8 +172,18 @@ def _string_bytes(token: bytes) -> bytes:
     return raw
 
 
-def _decode_pdf_string(token: bytes, font: tuple[int, dict[int, str]] | None = None) -> str:
-    """Turn a string token into text, via the font's /ToUnicode map when we have one."""
+def _decode_pdf_string(token: bytes, font: tuple[int, dict[int, str]] | None = None,
+                       fallback: dict[int, str] | None = None) -> str:
+    """Turn a string token into text, via the font's /ToUnicode map when we have one.
+
+    A code missing from the selected font's table is looked up in `fallback`, a union of every
+    /ToUnicode map in the document, before being given up on. Resource names like /F3 are page-local
+    and are freely reused for different fonts, so the map chosen by name can be the wrong one — most
+    often for a bold or italic run, which is a *subset* font of its own. Dropping those characters
+    silently deletes words: a short emphasised word such as "not" disappears and the sentence still
+    reads as fluent English while meaning the opposite. Guessing from a neighbouring map is far less
+    damaging than that, because a wrong glyph is visible whereas a missing one is not.
+    """
     raw = _string_bytes(token)
     if font:
         width, table = font
@@ -175,6 +193,8 @@ def _decode_pdf_string(token: bytes, font: tuple[int, dict[int, str]] | None = N
             code = int.from_bytes(raw[i:i + width], "big")
             if code in table:
                 chars.append(table[code])
+            elif fallback and code in fallback:
+                chars.append(fallback[code])
             elif width == 1 and 0x20 <= code < 0x7F:
                 chars.append(chr(code))  # unmapped but plausibly ASCII
         return "".join(chars)
@@ -183,7 +203,8 @@ def _decode_pdf_string(token: bytes, font: tuple[int, dict[int, str]] | None = N
     return raw.decode("latin-1", errors="ignore")
 
 
-def _text_from_content_stream(content: bytes, fonts: dict[bytes, tuple] | None = None) -> str:
+def _text_from_content_stream(content: bytes, fonts: dict[bytes, tuple] | None = None,
+                              fallback: dict[int, str] | None = None) -> str:
     """Walk the text-showing operators of a single content stream.
 
     Positioning operators are where naive extractors go wrong. A browser-exported PDF places
@@ -220,7 +241,7 @@ def _text_from_content_stream(content: bytes, fonts: dict[bytes, tuple] | None =
             depth = max(0, depth - 1)
             continue
         if token[:1] in (b"(", b"<"):
-            out.append(_decode_pdf_string(token, font))
+            out.append(_decode_pdf_string(token, font, fallback))
             continue
         if token.startswith(b"/"):
             pending_name = token[1:]
@@ -354,11 +375,16 @@ def from_pdf(path: Path) -> str:
         streams.append(body)
 
     fonts = _font_cmaps(data, streams)
+    # Union of every map in the document, used when a font-specific lookup misses.
+    fallback: dict[int, str] = {}
+    for _width, _table in fonts.values():
+        for _code, _ch in _table.items():
+            fallback.setdefault(_code, _ch)
     pages = []
     for body in streams:
         if b"BT" not in body:
             continue  # not a text stream: fonts, images, metadata
-        text = _text_from_content_stream(body, fonts)
+        text = _text_from_content_stream(body, fonts, fallback)
         if text.strip():
             pages.append(text)
 
