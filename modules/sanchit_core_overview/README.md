@@ -10,5 +10,4 @@
 - **Threshold:** Max 60 requests per IP/token combination.
 - **Response:** Exceeding the limit returns an HTTP `429 Too Many Requests` header and payload. Setting the limit parameter to `0` completely disables throttling for administrative testing.
 
-## Test Results
-eof
+
