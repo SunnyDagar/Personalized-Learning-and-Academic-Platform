@@ -1,17 +1,21 @@
-# Business Engine — Hafsa Shabbeer (Slides 17+)
+## Tenant Licence Control
 
-Business model, unit economics, and financial forecasting for the **institutional SaaS** model
+The server-edge licence component acts as the commercial control point on the customer's side.
 
-`unit_economics.py` is a runnable calculator: given per-institution pricing and costs, it projects
-revenue, gross margin, and a simple 12-month forecast.
+Every protected request uses the tenant key configured in `TENANT_KEY`. The edge checks that a key is present before traffic leaves the customer environment. It can also check whether the key follows the expected format.
 
-```bash
-python unit_economics.py
-```
+The upstream service remains the authoritative licence checker because a key may be suspended, expired, revoked, or unrecognized at any time.
 
-### Front-end
-| File | What it does |
-|---|---|
-| `ui/brand-config.component.ts` | White-label brand bar per tenant; renders the locked state when a licence is inactive |
+### Licence Key Format
 
-Angular 17 standalone component — drop into the client app under `client/src/app/`.
+A well-formed tenant key:
+
+- starts with `ck_`
+- contains 16 to 32 characters after the prefix
+- uses only lowercase hexadecimal characters: `0-9` and `a-f`
+
+Valid example:
+
+```text
+ck_0123456789abcdef
+
