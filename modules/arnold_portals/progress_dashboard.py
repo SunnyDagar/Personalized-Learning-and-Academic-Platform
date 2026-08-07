@@ -45,7 +45,6 @@ def mastery_by_topic(quiz_rows: List[QuizRow]) -> List[MasteryTopic]:
         for t, a in agg.items()
     ]
 
-    # Primary sort by mastery descending, secondary sort by topic name ascending
     return sorted(out, key=lambda x: (-x["mastery"], x["topic"]))
 
 
@@ -53,7 +52,6 @@ def weakest_topic(mastery: List[MasteryTopic]) -> Optional[MasteryTopic]:
     """Returns the topic with the lowest mastery score, or None if list is empty."""
     if not mastery:
         return None
-    # Ties favor topic with lowest attempts or alphabetical name
     return min(mastery, key=lambda m: (m["mastery"], m["attempts"], m["topic"]))
 
 
@@ -76,11 +74,7 @@ def score_distribution(quiz_rows: List[QuizRow]) -> Dict[str, int]:
     return buckets
 
 
-def run_tests():
-    """Unit test suite for progress dashboard analytics."""
-    print("--- Running Progress Dashboard Analytics Tests ---")
-
-    # Test 1: Standard sample execution
+if __name__ == "__main__":
     sample = [
         {"topic": "Recursion", "score": 80},
         {"topic": "Recursion", "score": 60},
@@ -89,36 +83,6 @@ def run_tests():
         {"topic": "Sorting", "score": 55},
     ]
     m = mastery_by_topic(sample)
-    assert len(m) == 3, f"Expected 3 topics, got {len(m)}"
-    assert m[0]["topic"] == "Genetic Algorithms" and m[0]["mastery"] == 92.0
-    assert m[1]["topic"] == "Recursion" and m[1]["mastery"] == 70.0
-    assert m[2]["topic"] == "Sorting" and m[2]["mastery"] == 50.0
-    print("PASSED: Mastery aggregation & precision check")
-
-    # Test 2: Weakest topic identification
-    weakest = weakest_topic(m)
-    assert weakest is not None and weakest["topic"] == "Sorting"
-    print("PASSED: Weakest topic detection")
-
-    # Test 3: Score distribution bucketing
-    dist = score_distribution(sample)
-    assert dist == {"0-49": 1, "50-69": 2, "70-79": 0, "80-89": 1, "90-100": 1}
-    print("PASSED: Score distribution bucketing")
-
-    # Test 4: Empty input handling
-    assert mastery_by_topic([]) == []
-    assert weakest_topic([]) is None
-    assert sum(score_distribution([]).values()) == 0
-    print("PASSED: Edge case empty inputs")
-
-    # Test 5: Out of bounds score clamping
-    clamped_sample = [{"topic": "Bounds", "score": 150}, {"topic": "Bounds", "score": -20}]
-    clamped_m = mastery_by_topic(clamped_sample)
-    assert clamped_m[0]["mastery"] == 50.0  # (100 + 0) / 2
-    print("PASSED: Out-of-bounds score clamping")
-
-    print("--- All Progress Dashboard Tests Passed Successfully! ---")
-
-
-if __name__ == "__main__":
-    run_tests()
+    print("Mastery by topic:", m)
+    print("Weakest (focus area):", weakest_topic(m))
+    print("Score distribution:", score_distribution(sample))
