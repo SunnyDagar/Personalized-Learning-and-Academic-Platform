@@ -22,3 +22,15 @@ The `MasteryCardComponent` utilizes standardized visual status signals across bo
 * **On Track (`80% - 100%`):** `#0ca30c` (Green) — Indicates solid mastery.
 
 **Professor Alignment:** Using identical thresholds across both portals guarantees that students and instructors see the exact same performance indicators, eliminating ambiguity during office hours and review sessions.
+
+### Portal End-to-End Workflows & User Flow
+
+#### Student Portal Journey
+1. **Authentication:** Student logs in via `/auth/login` and views enrollment stats on `/analytics/my-stats`.
+2. **Interactive Practice:** Accesses `/flashcards/generate` to review terms using the client-side `FlashcardDeck` engine or launches practice assessments on `/assessments`.
+3. **Mastery & Trend Tracking:** Monitors per-topic performance via `MasteryCardComponent` fed by `/analytics/my-mastery`, pinpointing weak areas before exams.
+
+#### Professor Portal Journey
+1. **Course & Material Management:** Professor uploads class documentation via `/documents/upload` and manages section rosters under `/courses`.
+2. **AI-Driven Assessment Generation:** Triggers automated test creation at `/assessments/ai-generate` and publishes customized assessments to students.
+3. **Class Analytics:** Monitors aggregate student performance and mastery distributions via `/analytics/course/{id}` to tailor upcoming lectures.
