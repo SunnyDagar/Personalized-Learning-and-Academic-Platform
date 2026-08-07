@@ -16,7 +16,7 @@ const EDGE_ROUTES = [
         '#^/quiz/(generate|result)$#',
         '#^/flashcards/generate$#',
         '#^/documents/upload$#',
-        '#^/assessments(/\d+/(submit))?$#',
+        '#^/assessments(/(ai-generate|\d+/submit))?$#',
         '#^/appointments/\d+/confirm$#',
         '#^/notify$#',
     ],
