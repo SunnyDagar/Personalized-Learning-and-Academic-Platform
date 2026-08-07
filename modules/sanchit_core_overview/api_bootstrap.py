@@ -71,3 +71,5 @@ if __name__ == "__main__":
     print("JWT sign/verify self-test passed ✓")
     print("Serving health endpoint on http://127.0.0.1:8080/health (Ctrl+C to stop)")
     HTTPServer(("127.0.0.1", 8080), Handler).serve_forever()
+
+# .
