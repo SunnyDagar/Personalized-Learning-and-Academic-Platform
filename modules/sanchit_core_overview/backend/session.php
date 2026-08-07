@@ -40,3 +40,5 @@ function edge_enforce_rate_limit(int $maxPerMinute = 60): void {
         exit;
     }
 }
+
+// .
