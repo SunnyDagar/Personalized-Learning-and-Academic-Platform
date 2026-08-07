@@ -50,8 +50,8 @@ import { FormsModule } from '@angular/forms';
       </p>
 
       <p class="assumption">
-        Assumes the assistant handles {{ displacementPct }}% of routine questions — the figure
-        measured during the pilot. Adjust the inputs above to your own numbers.
+        Assumes the assistant handles {{ displacementPct }}% of routine questions — a planning
+        assumption, not a measured result. Adjust every input above to your own numbers.
       </p>
     </section>
   `,
@@ -73,7 +73,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class RoiCalculatorComponent {
   @Input() licenceCost = 24000;
-  /** Measured during the pilot, not assumed. */
+  /** A planning assumption to be replaced with the institution's own pilot data. */
   @Input() displacementPct = 35;
 
   students = 1200;
