@@ -41,12 +41,24 @@ their presentation section.
 
 ## Run it
 
+Nothing to install and nothing to configure. Use whichever of these you already have:
+
 ```bash
-php -S 127.0.0.1:8080 -t .
+python3 -m http.server 8080      # works everywhere — Python 3 ships with macOS and Linux
 ```
-Open <http://127.0.0.1:8080>. No configuration needed — a time-limited evaluation licence is
-included in `server-edge/config.example.php`. `/api/...` calls are forwarded upstream by the edge
-to the hosted service, which holds the data, the AI and the keys.
+```bash
+php -S 127.0.0.1:8080 -t .       # if you have PHP, this also runs the edge forwarder
+```
+
+Then open <http://127.0.0.1:8080> and sign in with the demo accounts above.
+
+> **Recent macOS no longer ships PHP.** If `php` reports *command not found*, use the Python line —
+> the application is identical either way. The client calls the hosted API directly, so the local
+> server only has to serve files. PHP is needed solely to exercise `server-edge/gateway.php`, the
+> forwarder a customer would host.
+
+A time-limited evaluation licence is included in `server-edge/config.example.php`, so no key needs
+to be entered. The hosted service holds the data, the AI and the keys.
 
 **The licence expires on 30 September 2026**, and is revocable before then. After that this
 software no longer functions: the server declines every request, and nothing in this repository
