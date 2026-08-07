@@ -1,0 +1,2 @@
+
+// Unauthorized error view component
