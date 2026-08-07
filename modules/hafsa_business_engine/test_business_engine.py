@@ -12,15 +12,7 @@ from risk_cost import (
 
 
 class TestUnitEconomics(unittest.TestCase):
-class TestUnitEconomics(unittest.TestCase):
 
-    def test_unit_economics_calculates_margin_correctly(self):
-        result = unit_economics(
-            price_per_institution_year=12000,
-            ai_cost_month=120,
-            infra_cost_month=80,
-            institutions=5,
-        )
     def test_unit_economics_calculates_margin_correctly(self):
         result = unit_economics(
             price_per_institution_year=12000,
@@ -35,10 +27,7 @@ class TestUnitEconomics(unittest.TestCase):
         self.assertEqual(result["gross_margin_pct"], 80.0)
 
     def test_unit_economics_rejects_zero_price(self):
-        with self.assertRaisesRegex(
-            ValueError,
-            "price_per_institution_year",
-        ):
+        with self.assertRaisesRegex(ValueError, "price_per_institution_year"):
             unit_economics(
                 price_per_institution_year=0,
                 ai_cost_month=120,
@@ -47,10 +36,7 @@ class TestUnitEconomics(unittest.TestCase):
             )
 
     def test_unit_economics_rejects_zero_institutions(self):
-        with self.assertRaisesRegex(
-            ValueError,
-            "institutions",
-        ):
+        with self.assertRaisesRegex(ValueError, "institutions"):
             unit_economics(
                 price_per_institution_year=12000,
                 ai_cost_month=120,
@@ -59,10 +45,7 @@ class TestUnitEconomics(unittest.TestCase):
             )
 
     def test_unit_economics_rejects_negative_cost(self):
-        with self.assertRaisesRegex(
-            ValueError,
-            "ai_cost_month",
-        ):
+        with self.assertRaisesRegex(ValueError, "ai_cost_month"):
             unit_economics(
                 price_per_institution_year=12000,
                 ai_cost_month=-120,
@@ -71,14 +54,6 @@ class TestUnitEconomics(unittest.TestCase):
             )
 
 
-class TestBreakEven(unittest.TestCase):
-
-    def test_break_even_calculates_correctly(self):
-        result = break_even(
-            price_per_year=12000,
-            fixed_cost_year=60000,
-            variable_cost_year_per_inst=3000,
-        )
 class TestBreakEven(unittest.TestCase):
 
     def test_break_even_calculates_correctly(self):
@@ -113,10 +88,7 @@ class TestBreakEven(unittest.TestCase):
             )
 
     def test_break_even_rejects_zero_fixed_cost(self):
-        with self.assertRaisesRegex(
-            ValueError,
-            "fixed_cost_year",
-        ):
+        with self.assertRaisesRegex(ValueError, "fixed_cost_year"):
             break_even(
                 price_per_year=12000,
                 fixed_cost_year=0,
@@ -125,14 +97,7 @@ class TestBreakEven(unittest.TestCase):
 
 
 class TestCustomerLifetimeValue(unittest.TestCase):
-class TestCustomerLifetimeValue(unittest.TestCase):
 
-    def test_customer_lifetime_value_calculates_correctly(self):
-        result = customer_lifetime_value(
-            annual_price=12000,
-            gross_margin_pct=80,
-            avg_years=3,
-        )
     def test_customer_lifetime_value_calculates_correctly(self):
         result = customer_lifetime_value(
             annual_price=12000,
@@ -143,10 +108,7 @@ class TestCustomerLifetimeValue(unittest.TestCase):
         self.assertEqual(result, 28800.00)
 
     def test_customer_lifetime_value_rejects_zero_years(self):
-        with self.assertRaisesRegex(
-            ValueError,
-            "avg_years",
-        ):
+        with self.assertRaisesRegex(ValueError, "avg_years"):
             customer_lifetime_value(
                 annual_price=12000,
                 gross_margin_pct=80,
@@ -154,10 +116,7 @@ class TestCustomerLifetimeValue(unittest.TestCase):
             )
 
     def test_customer_lifetime_value_rejects_negative_price(self):
-        with self.assertRaisesRegex(
-            ValueError,
-            "annual_price",
-        ):
+        with self.assertRaisesRegex(ValueError, "annual_price"):
             customer_lifetime_value(
                 annual_price=-12000,
                 gross_margin_pct=80,
@@ -185,30 +144,15 @@ class TestMonthlyCost(unittest.TestCase):
             infra_cost=80,
             support_cost=50,
         )
-class TestMonthlyCost(unittest.TestCase):
-
-    def test_monthly_cost_calculates_correctly(self):
-        result = monthly_cost(
-            institutions=5,
-            ai_cost=120,
-            infra_cost=80,
-            support_cost=50,
-        )
 
         self.assertEqual(result, 1250)
 
     def test_monthly_cost_rejects_zero_institutions(self):
-        with self.assertRaisesRegex(
-            ValueError,
-            "institutions",
-        ):
+        with self.assertRaisesRegex(ValueError, "institutions"):
             monthly_cost(institutions=0)
 
     def test_monthly_cost_rejects_negative_support_cost(self):
-        with self.assertRaisesRegex(
-            ValueError,
-            "support_cost",
-        ):
+        with self.assertRaisesRegex(ValueError, "support_cost"):
             monthly_cost(
                 institutions=5,
                 support_cost=-50,
