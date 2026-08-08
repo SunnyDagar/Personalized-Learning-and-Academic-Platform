@@ -1,8 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/licence.php';
+
 
 function assert_true(bool $condition, string $testName): void
 {
@@ -14,10 +14,12 @@ function assert_true(bool $condition, string $testName): void
     echo "[PASS] {$testName}\n";
 }
 
+
 function assert_false(bool $condition, string $testName): void
 {
     assert_true(!$condition, $testName);
 }
+
 
 function assert_same(mixed $expected, mixed $actual, string $testName): void
 {
@@ -30,6 +32,7 @@ function assert_same(mixed $expected, mixed $actual, string $testName): void
 
     echo "[PASS] {$testName}\n";
 }
+
 
 function test_missing_key_paths(): void
 {
@@ -54,15 +57,20 @@ function test_missing_key_paths(): void
     );
 
     assert_true(
-        licence_key_present(['TENANT_KEY' => 'ck_0123456789abcdef']),
+        licence_key_present([
+            'TENANT_KEY' => 'ck_0123456789abcdef'
+        ]),
         'Configured TENANT_KEY is accepted as present'
     );
 }
 
+
 function test_key_format_paths(): void
 {
     assert_true(
-        licence_key_well_formed('ck_0123456789abcdef'),
+        licence_key_well_formed(
+            'ck_0123456789abcdef'
+        ),
         'A 16-character lowercase hexadecimal key is accepted'
     );
 
@@ -74,7 +82,9 @@ function test_key_format_paths(): void
     );
 
     assert_false(
-        licence_key_well_formed('ck_1234'),
+        licence_key_well_formed(
+            'ck_1234'
+        ),
         'A key shorter than 16 characters is rejected'
     );
 
@@ -86,25 +96,34 @@ function test_key_format_paths(): void
     );
 
     assert_false(
-        licence_key_well_formed('ck_0123456789ABCDEF'),
+        licence_key_well_formed(
+            'ck_0123456789ABCDEF'
+        ),
         'Uppercase hexadecimal characters are rejected'
     );
 
     assert_false(
-        licence_key_well_formed('ck_0123456789abcdeg'),
+        licence_key_well_formed(
+            'ck_0123456789abcdeg'
+        ),
         'Non-hexadecimal characters are rejected'
     );
 
     assert_false(
-        licence_key_well_formed('0123456789abcdef'),
+        licence_key_well_formed(
+            '0123456789abcdef'
+        ),
         'A key without the ck_ prefix is rejected'
     );
 
     assert_false(
-        licence_key_well_formed('invalid-key'),
+        licence_key_well_formed(
+            'invalid-key'
+        ),
         'An unrelated key format is rejected'
     );
 }
+
 
 function test_upstream_messages(): void
 {
@@ -133,6 +152,7 @@ function test_upstream_messages(): void
     );
 }
 
+
 function run_tests(): void
 {
     echo "Running licence tests...\n\n";
@@ -143,5 +163,6 @@ function run_tests(): void
 
     echo "\nAll licence tests passed.\n";
 }
+
 
 run_tests();
